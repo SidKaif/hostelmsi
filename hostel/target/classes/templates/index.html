@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+
+<title>MSI HOSTEL STUDENT LIST</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+	
+ <style type="text/css">
+ h1 {
+  border: 2px solid green;
+  padding: 5px;
+  margin: 2px;
+}
+ 
+ </style>
+	
+</head>
+<body>
+
+	<div class="container my-2">
+	<h1 style="color:red;" align="center">MSI HOSTEL STUDENT LIST</h1>
+	<br>
+	
+	<a th:href = "@{/showNewEmployeeForm}" class="btn btn-primary btn-sm mb-3"> Add Student </a>
+	
+		<table border="1" class = "table table-striped table-responsive-md">
+			<thead>
+				<tr>
+					<th>
+						<a th:href="@{'/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${reverseSortDir}}">
+							Student First Name</a>
+					</th>
+					<th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=lastName&sortDir=' + ${reverseSortDir}}">
+							Student Last Name</a>
+					</th>
+					<th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">
+							Student Email</a>
+					</th>
+					<th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=address&sortDir=' + ${reverseSortDir}}">
+							Student Address</a>
+					</th>
+					<th>
+						<a th:href="@{'/page/' + ${currentPage} + '?sortField=mobileno&sortDir=' + ${reverseSortDir}}">
+							Student Mobile Number</a>
+					</th>
+					<th>
+						<a th:href="@{'/page/' + ${currentPage} + '?sortField=roomno&sortDir=' + ${reverseSortDir}}">
+							Student Room Number</a>
+					</th>
+					<th>
+					<a th:href="@{'/page/' +${currentPage} + '?sortField=fatherName&sortDir=' + ${reverseSortDir}}">
+					         Father Name</a>
+					 </th>
+					<th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=subFee&sortDir=' + ${reverseSortDir}}">
+							Submitted Fee</a>
+					</th>
+					<th> <a th:href="@{'/page/' + ${currentPage} + '?sortField=subFee&sortDir=' +$ {reverseSorrDir}}">
+					        Due Fee</a>
+					 </th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="employee : ${listEmployees}">
+					<td th:text="${employee.firstName}"></td>
+					<td th:text="${employee.lastName}"></td>
+					<td th:text="${employee.email}"></td>
+					<td th:text="${employee.address}"></td>
+					<td th:text="${employee.mobileno}"></td>
+					<td th:text="${employee.roomno}"></td>
+					<td th:text="${employee.fatherName}"></td>
+					<td th:text="${employee.subFee}"></td>
+					<td th:text="${employee.dueFee}"></td>
+					<td> <a th:href="@{/showFormForUpdate/{id}(id=${employee.id})}" class="btn btn-primary">Update</a>
+					    <a th:href="@{/deleteEmployee/{id}(id=${employee.id})}" class="btn btn-danger">Delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div><button onClick="window.print()" style="color:blue;">Print this page</button></div>
+		
+		<div th:if = "${totalPages > 1}">
+			<div class = "row col-sm-10">
+				<div class = "col-sm-2">
+					Total Rows: [[${totalItems}]] 
+				</div>
+				<div class = "col-sm-1">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					</span>
+				</div>
+				<div class = "col-sm-1">
+					<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+					<span th:unless="${currentPage < totalPages}">Next</span>
+				</div>
+				
+				 <div class="col-sm-1">
+    				<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+					<span th:unless="${currentPage < totalPages}">Last</span>
+   				 </div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
